@@ -73,15 +73,31 @@ class ShrinkTheWeb
 	{
 		// Get CI Instance
 		$this->CI = &get_instance();
-
-		$this->set_config($config);
-		log_message('debug', 'ShrinkTheWeb Class Initialized');
+		
+		//load in the values from the config file or array. 
+		if ( ! empty($config)) $this->set_config($config);
+		else $this->set_config($this->_ci->load->config('ShrinkTheWeb'));
+		
+		 //Lets do some basic error handling to see if the configuration is A-OK.
+		 
+		 $temp_error_msg = '';
+		 
+		 if ($this->access_key === 'xxxxxxxxxxxxxxxx') $temp_error_msg .= 'You need to set your access key in the config file or array <br />';
+		 
+		 if ($this->secret_key === 'xxxxx') $temp_error_msg .= 'You need to set your secret key in the config file or array <br />';
+		 
+		 if ($temp_error_msg != '')
+		 	{
+		 		show_error($temp_error_msg);
+		 		log_message('debug', 'ShrinkTheWeb Class Initialized With Error');
+		 	}
+		 else log_message('debug', 'ShrinkTheWeb Class Initialized');
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Manually Set Config
+	 * Set Config
 	 *
 	 * Pass an array of config vars to override previous setup
 	 *
@@ -90,13 +106,7 @@ class ShrinkTheWeb
 	 */
 	public function set_config($config = array())
 	{
-		if ( ! empty($config))
-		{
-			foreach ($config as $key => $value)
-			{
-				$this->{$key} = $value;
-			}
-		}
+		foreach ($config as $key => $value) $this->{$key} = $value;
 	}
 
     /**
