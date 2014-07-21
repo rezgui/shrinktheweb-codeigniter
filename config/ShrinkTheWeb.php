@@ -27,3 +27,5 @@
 	$config['bandwidth_image']   = 'bandwidth.jpg';
 	$config['no_response_image'] = 'no_response_image.jpg';
 	$config['maintenance']       = 'ShrinkTheWeb is temporarily offline for maintenance';
+
+
